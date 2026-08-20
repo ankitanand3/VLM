@@ -1,0 +1,200 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "d36c9da2",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/home/ankitanand/Documents/pp/VLM/.venv/lib/python3.11/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html\n",
+      "  from .autonotebook import tqdm as notebook_tqdm\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'images': [<PIL.PngImagePlugin.PngImageFile image mode=RGB size=1506x1102 at 0xFDD1D8E42D10>], 'texts': [{'user': 'What is the primary key of the Equipment entity?', 'assistant': 'The primary key of the Equipment entity is EquipmentID, which uniquely identifies each piece of equipment in the diagram.\\nAnswer: EquipmentID'}, {'user': 'What is the relationship between Equipment and Maintenance Record?', 'assistant': 'The relationship between Equipment and Maintenance Record is labeled as \"Maintained By\", indicating that one piece of equipment can have multiple maintenance records associated with it.\\nAnswer: Maintained By'}, {'user': 'How many relationships does the Supplier entity have?', 'assistant': 'The Supplier entity has two relationships: \"Supplied By\" with Equipment and \"Delivered By\" with Logistics Company, indicating it serves as a midpoint in both flows.\\nAnswer: 2'}, {'user': 'What is the cardinality of the relationship between Equipment and Supplier?', 'assistant': 'The cardinality of the relationship between Equipment and Supplier is M:1, which means many pieces of equipment can be supplied by one supplier.\\nAnswer: M:1'}, {'user': 'Which entity is connected to Logistics Company through the Delivered By relationship?', 'assistant': 'The entity connected to Logistics Company through the Delivered By relationship is Supplier, indicating that the supplier relies on the logistics company for delivering equipment.\\nAnswer: Supplier'}, {'user': 'How many attributes does the Maintenance Record entity have?', 'assistant': 'The Maintenance Record entity has five attributes: RecordID, Date, Description, ServiceCost, and ServiceProvider, detailing the specifics of each maintenance entry.\\nAnswer: 5'}, {'user': 'What type of diagram is represented in this illustration?', 'assistant': 'This illustration represents an Entity Relationship Diagram, which shows entities, their attributes, and how they are related to one another within a system, particularly for equipment maintenance and service records.\\nAnswer: Entity Relationship Diagram'}, {'user': 'Which attribute of Supplier is related to contact information?', 'assistant': 'The contact information attribute related to Supplier is ContactNumber which provides the phone number for communication.\\nAnswer: ContactNumber'}, {'user': 'Who maintains the Equipment records?', 'assistant': 'The Equipment records are maintained through the relationship labeled \"Maintained By\" with the Maintenance Record, indicating a direct link between equipment details and their records of maintenance.\\nAnswer: Maintenance Record'}], 'source': 'CoSyn-400k-diagram', 'relevance_ratings': [5, 5, 5, 5, 5, 5, 5, 5, 2], 'relevance_min': 2, 'visual_dependency_ratings': [1, 2, 4, 4, 4, 4, 5, 2, 2], 'visual_dependency_min': 1, 'image_correspondence_ratings': [3, 5, 4, 4, 5, 5, 5, 3, 5], 'image_correspondence_min': 3, 'formatting_ratings': [4, 4, 4, 4, 4, 5, 4, 4, 4], 'formatting_min': 4}\n"
+     ]
+    }
+   ],
+   "source": [
+    "from datasets import load_dataset\n",
+    "\n",
+    "dataset = load_dataset(\"HuggingFaceM4/FineVisionMax\", split=\"train\", streaming=True)\n",
+    "print(next(iter(dataset)))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "eaf94844",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "ImportError",
+     "evalue": "tokenizers>=0.22.0,<=0.23.0 is required for a normal functioning of this module, but found tokenizers==0.23.1.\nTry: `pip install transformers -U` or `pip install -e '.[dev]'` if you're working with git main",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mImportError\u001b[39m                               Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[2]\u001b[39m\u001b[32m, line 3\u001b[39m\n\u001b[32m      1\u001b[39m \u001b[38;5;28;01mimport\u001b[39;00m torch\n\u001b[32m      2\u001b[39m \u001b[38;5;28;01mimport\u001b[39;00m torch.nn \u001b[38;5;28;01mas\u001b[39;00m nn\n\u001b[32m----> \u001b[39m\u001b[32m3\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m transformers \u001b[38;5;28;01mimport\u001b[39;00m AutoModel, AutoProcessor, AutoTokenizer, AutoModelForCausalLM\n\u001b[32m      4\u001b[39m \n\u001b[32m      5\u001b[39m \u001b[38;5;28;01mclass\u001b[39;00m VisionLanguageModel(nn.Module):\n\u001b[32m      6\u001b[39m     \u001b[38;5;28;01mdef\u001b[39;00m __init__(self, vision_ckpt, language_ckpt, modality_input_dim=\u001b[32m768\u001b[39m, modality_output_dim=\u001b[32m576\u001b[39m):\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/Documents/pp/VLM/.venv/lib/python3.11/site-packages/transformers/__init__.py:30\u001b[39m\n\u001b[32m     27\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01mtyping\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mimport\u001b[39;00m TYPE_CHECKING\n\u001b[32m     29\u001b[39m \u001b[38;5;66;03m# Check the dependencies satisfy the minimal versions required.\u001b[39;00m\n\u001b[32m---> \u001b[39m\u001b[32m30\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01m.\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mimport\u001b[39;00m dependency_versions_check\n\u001b[32m     31\u001b[39m \u001b[38;5;28;01mfrom\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[34;01m.\u001b[39;00m\u001b[34;01mutils\u001b[39;00m\u001b[38;5;250m \u001b[39m\u001b[38;5;28;01mimport\u001b[39;00m (\n\u001b[32m     32\u001b[39m     OptionalDependencyNotAvailable,\n\u001b[32m     33\u001b[39m     _LazyModule,\n\u001b[32m   (...)\u001b[39m\u001b[32m     40\u001b[39m     is_pretty_midi_available,\n\u001b[32m     41\u001b[39m )\n\u001b[32m     43\u001b[39m \u001b[38;5;66;03m# Note: the following symbols are deliberately exported with `as`\u001b[39;00m\n\u001b[32m     44\u001b[39m \u001b[38;5;66;03m# so that mypy, pylint or other static linters can recognize them,\u001b[39;00m\n\u001b[32m     45\u001b[39m \u001b[38;5;66;03m# given that they are not exported using `__all__` in this file.\u001b[39;00m\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/Documents/pp/VLM/.venv/lib/python3.11/site-packages/transformers/dependency_versions_check.py:56\u001b[39m\n\u001b[32m     53\u001b[39m         \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m is_accelerate_available():\n\u001b[32m     54\u001b[39m             \u001b[38;5;28;01mcontinue\u001b[39;00m  \u001b[38;5;66;03m# not required, check version only if installed\u001b[39;00m\n\u001b[32m---> \u001b[39m\u001b[32m56\u001b[39m     \u001b[30;43mrequire_version_core\u001b[39;49m\u001b[30;43m(\u001b[39;49m\u001b[30;43mdeps\u001b[39;49m\u001b[30;43m[\u001b[39;49m\u001b[30;43mpkg\u001b[39;49m\u001b[30;43m]\u001b[39;49m\u001b[30;43m)\u001b[39;49m\n\u001b[32m     57\u001b[39m \u001b[38;5;28;01melse\u001b[39;00m:\n\u001b[32m     58\u001b[39m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\u001b[33mf\u001b[39m\u001b[33m\"\u001b[39m\u001b[33mcan\u001b[39m\u001b[33m'\u001b[39m\u001b[33mt find \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mpkg\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m in \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mdeps.keys()\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m, check dependency_versions_table.py\u001b[39m\u001b[33m\"\u001b[39m)\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/Documents/pp/VLM/.venv/lib/python3.11/site-packages/transformers/utils/versions.py:116\u001b[39m, in \u001b[36mrequire_version_core\u001b[39m\u001b[34m(requirement)\u001b[39m\n\u001b[32m    114\u001b[39m \u001b[38;5;250m\u001b[39m\u001b[33;03m\"\"\"require_version wrapper which emits a core-specific hint on failure\"\"\"\u001b[39;00m\n\u001b[32m    115\u001b[39m hint = \u001b[33m\"\u001b[39m\u001b[33mTry: `pip install transformers -U` or `pip install -e \u001b[39m\u001b[33m'\u001b[39m\u001b[33m.[dev]\u001b[39m\u001b[33m'\u001b[39m\u001b[33m` if you\u001b[39m\u001b[33m'\u001b[39m\u001b[33mre working with git main\u001b[39m\u001b[33m\"\u001b[39m\n\u001b[32m--> \u001b[39m\u001b[32m116\u001b[39m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[30;43mrequire_version\u001b[39;49m\u001b[30;43m(\u001b[39;49m\u001b[30;43mrequirement\u001b[39;49m\u001b[30;43m,\u001b[39;49m\u001b[30;43m \u001b[39;49m\u001b[30;43mhint\u001b[39;49m\u001b[30;43m)\u001b[39;49m\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/Documents/pp/VLM/.venv/lib/python3.11/site-packages/transformers/utils/versions.py:110\u001b[39m, in \u001b[36mrequire_version\u001b[39m\u001b[34m(requirement, hint)\u001b[39m\n\u001b[32m    108\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m want_ver \u001b[38;5;129;01mis\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m \u001b[38;5;28;01mNone\u001b[39;00m:\n\u001b[32m    109\u001b[39m     \u001b[38;5;28;01mfor\u001b[39;00m op, want_ver \u001b[38;5;129;01min\u001b[39;00m wanted.items():\n\u001b[32m--> \u001b[39m\u001b[32m110\u001b[39m         \u001b[30;43m_compare_versions\u001b[39;49m\u001b[30;43m(\u001b[39;49m\u001b[30;43mop\u001b[39;49m\u001b[30;43m,\u001b[39;49m\u001b[30;43m \u001b[39;49m\u001b[30;43mgot_ver\u001b[39;49m\u001b[30;43m,\u001b[39;49m\u001b[30;43m \u001b[39;49m\u001b[30;43mwant_ver\u001b[39;49m\u001b[30;43m,\u001b[39;49m\u001b[30;43m \u001b[39;49m\u001b[30;43mrequirement\u001b[39;49m\u001b[30;43m,\u001b[39;49m\u001b[30;43m \u001b[39;49m\u001b[30;43mpkg\u001b[39;49m\u001b[30;43m,\u001b[39;49m\u001b[30;43m \u001b[39;49m\u001b[30;43mhint\u001b[39;49m\u001b[30;43m)\u001b[39;49m\n",
+      "\u001b[36mFile \u001b[39m\u001b[32m~/Documents/pp/VLM/.venv/lib/python3.11/site-packages/transformers/utils/versions.py:43\u001b[39m, in \u001b[36m_compare_versions\u001b[39m\u001b[34m(op, got_ver, want_ver, requirement, pkg, hint)\u001b[39m\n\u001b[32m     38\u001b[39m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\n\u001b[32m     39\u001b[39m         \u001b[33mf\u001b[39m\u001b[33m\"\u001b[39m\u001b[33mUnable to compare versions for \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mrequirement\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m: need=\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mwant_ver\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m found=\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mgot_ver\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m. This is unusual. Consider\u001b[39m\u001b[33m\"\u001b[39m\n\u001b[32m     40\u001b[39m         \u001b[33mf\u001b[39m\u001b[33m\"\u001b[39m\u001b[33m reinstalling \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mpkg\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m.\u001b[39m\u001b[33m\"\u001b[39m\n\u001b[32m     41\u001b[39m     )\n\u001b[32m     42\u001b[39m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;129;01mnot\u001b[39;00m ops[op](version.parse(got_ver), version.parse(want_ver)):\n\u001b[32m---> \u001b[39m\u001b[32m43\u001b[39m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mImportError\u001b[39;00m(\n\u001b[32m     44\u001b[39m         \u001b[33mf\u001b[39m\u001b[33m\"\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mrequirement\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m is required for a normal functioning of this module, but found \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mpkg\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m==\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mgot_ver\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m.\u001b[39m\u001b[38;5;132;01m{\u001b[39;00mhint\u001b[38;5;132;01m}\u001b[39;00m\u001b[33m\"\u001b[39m\n\u001b[32m     45\u001b[39m     )\n",
+      "\u001b[31mImportError\u001b[39m: tokenizers>=0.22.0,<=0.23.0 is required for a normal functioning of this module, but found tokenizers==0.23.1.\nTry: `pip install transformers -U` or `pip install -e '.[dev]'` if you're working with git main"
+     ]
+    }
+   ],
+   "source": [
+    "import torch\n",
+    "import torch.nn as nn\n",
+    "from transformers import AutoModel, AutoProcessor, AutoTokenizer, AutoModelForCausalLM\n",
+    "\n",
+    "class VisionLanguageModel(nn.Module):\n",
+    "    def __init__(self, vision_ckpt, language_ckpt, modality_input_dim=768, modality_output_dim=576):\n",
+    "        super().__init__()\n",
+    "        # only take vision backbone\n",
+    "        self.vision_encoder = AutoModel.from_pretrained(vision_ckpt).vision_model\n",
+    "        self.vision_processor = AutoProcessor.from_pretrained(vision_ckpt)\n",
+    "        self.modality_projector = nn.Linear(modality_input_dim, modality_output_dim, bias=False)\n",
+    "        self.tokenizer = AutoTokenizer.from_pretrianed(language_ckpt)\n",
+    "        self.llm = AutoModelForCausalLM.from_pretrained(language_ckpt)\n",
+    "\n",
+    "    def forward(self, text, image):\n",
+    "        processed_img = self.vision_processor(images=[image], return_tensors=\"pt\").to(self.llm.device)\n",
+    "        image_embd = self.vision_encoder(**processed_img).last_hidden_state\n",
+    "        # match llm dtype\n",
+    "        image_embd = self.modality_projector(image_embd).to(dtype=self.llm.dtype)\n",
+    "        imput_ids = self.tokenizer(text, return_tensors=\"pt\").input_ids.to(self.llm.device)\n",
+    "\n",
+    "        token_embd = self.llm.model.embed_tokens(input_ids)\n",
+    "        combined_embd = torch.cat((image_embd, token_embd), dim=1)\n",
+    "        # Concatenate image embeddings to token embeddings\n",
+    "\n",
+    "        logits = self.llm(inputs_embeds=combined_embd).logits\n",
+    "        shift_logits = logits[:, image_embd.size(1):-1, :].contigous()\n",
+    "        # remove images\n",
+    "        shift_labels = input_ids[:, 1:].contigous()\n",
+    "\n",
+    "        loss = nn.functional.cross_entropy(shift_logits.reshape(-1,\n",
+    "                                   shift_logits.size(-1)),\n",
+    "                                   shift_labels.reshape(-1))\n",
+    "\n",
+    "        return logits, loss"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4fc826f5",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "5.15.0\n",
+      "<class 'transformers.models.auto.tokenization_auto.AutoTokenizer'> /home/ankitanand/Documents/pp/VLM/.venv/lib/python3.11/site-packages/transformers/models/auto/tokenization_auto.py\n"
+     ]
+    }
+   ],
+   "source": [
+    "import transformers, inspect\n",
+    "print(transformers.__version__)\n",
+    "print(transformers.AutoTokenizer, inspect.getfile(transformers.AutoTokenizer))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c8f771e2",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'vlm' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mNameError\u001b[39m                                 Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[8]\u001b[39m\u001b[32m, line 1\u001b[39m\n\u001b[32m----> \u001b[39m\u001b[32m1\u001b[39m print(vlm.vision_encoder.config.hidden_size)   \u001b[38;5;66;03m# SigLIP2 base → 768\u001b[39;00m\n\u001b[32m      2\u001b[39m print(vlm.llm.config.hidden_size)              \u001b[38;5;66;03m# SmolLM2-135M → 576\u001b[39;00m\n",
+      "\u001b[31mNameError\u001b[39m: name 'vlm' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "print(vlm.vision_encoder.config.hidden_size)   # SigLIP2 base → 768\n",
+    "print(vlm.llm.config.hidden_size)              # SmolLM2-135M → 576"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a3efcd32",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Loading weights: 100%|██████████| 408/408 [00:00<00:00, 7664.40it/s]\n"
+     ]
+    },
+    {
+     "ename": "AttributeError",
+     "evalue": "type object 'AutoTokenizer' has no attribute 'from_pretrianed'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mAttributeError\u001b[39m                            Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[7]\u001b[39m\u001b[32m, line 4\u001b[39m\n\u001b[32m      1\u001b[39m vision_encoder_ckpt = \u001b[33m\"google/siglip2-base-patch16-256\"\u001b[39m\n\u001b[32m      2\u001b[39m language_model_ckpt = \u001b[33m\"HuggingFaceTB/SmolLM2-135M-Instruct\"\u001b[39m\n\u001b[32m      3\u001b[39m \n\u001b[32m----> \u001b[39m\u001b[32m4\u001b[39m vlm = VisionLanguageModel(vision_encoder_ckpt, language_model_ckpt).to(\u001b[33m\"cuda\"\u001b[39m)\n",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[3]\u001b[39m\u001b[32m, line 12\u001b[39m, in \u001b[36mVisionLanguageModel.__init__\u001b[39m\u001b[34m(self, vision_ckpt, language_ckpt, modality_input_dim, modality_output_dim)\u001b[39m\n\u001b[32m      8\u001b[39m         \u001b[38;5;66;03m# only take vision backbone\u001b[39;00m\n\u001b[32m      9\u001b[39m         self.vision_encoder = AutoModel.from_pretrained(vision_ckpt).vision_model\n\u001b[32m     10\u001b[39m         self.vision_processor = AutoProcessor.from_pretrained(vision_ckpt)\n\u001b[32m     11\u001b[39m         self.modality_projector = nn.Linear(modality_input_dim, modality_output_dim, bias=\u001b[38;5;28;01mFalse\u001b[39;00m)\n\u001b[32m---> \u001b[39m\u001b[32m12\u001b[39m         self.tokenizer = AutoTokenizer.from_pretrianed(language_ckpt)\n\u001b[32m     13\u001b[39m         self.llm = AutoModelForCausalLM.from_pretrained(language_ckpt)\n",
+      "\u001b[31mAttributeError\u001b[39m: type object 'AutoTokenizer' has no attribute 'from_pretrianed'"
+     ]
+    }
+   ],
+   "source": [
+    "vision_encoder_ckpt = \"google/siglip2-base-patch16-256\"\n",
+    "language_model_ckpt = \"HuggingFaceTB/SmolLM2-135M-Instruct\"\n",
+    "\n",
+    "vlm = VisionLanguageModel(vision_encoder_ckpt, language_model_ckpt).to(\"cuda\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ffb8ec5b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "VLM Training (Python 3.11)",
+   "language": "python",
+   "name": "vlm"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.15"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
