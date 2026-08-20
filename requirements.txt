@@ -1,0 +1,7 @@
+ipykernel
+torch
+datasets
+transformers
+accelerate
+torchvision
+numpy
